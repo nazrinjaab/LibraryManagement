@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: LibraryManagement
+  datasource:
+    url: jdbc:postgresql://localhost:5433/library_db
+    username: library
+    password: library
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml

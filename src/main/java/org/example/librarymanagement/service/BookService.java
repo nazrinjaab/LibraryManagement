@@ -33,7 +33,7 @@ public class BookService {
     @Transactional(readOnly = true)
     public BookResponse getById(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Book not found: " + id));
+                .orElseThrow(() -> new NotFoundException("error.book.notFound", id));
         return toResponse(book);
     }
 

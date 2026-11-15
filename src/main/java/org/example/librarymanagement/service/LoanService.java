@@ -39,7 +39,7 @@ public class LoanService {
 
         long activeLoans = loanRepository.countByMemberIdAndStatus(member.getId(), LoanStatus.ACTIVE);
         if (activeLoans >= MAX_ACTIVE_LOANS) {
-            throw new BusinessException(("Member already has " + MAX_ACTIVE_LOANS + " active loans"));
+            throw new BusinessException("error.member.loanLimit", MAX_ACTIVE_LOANS);
         }
 
         int updated = bookRepository.decreaseAvailableCopies(book.getId());

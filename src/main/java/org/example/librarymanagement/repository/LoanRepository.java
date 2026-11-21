@@ -18,4 +18,5 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     Optional<Loan> findByIdForUpdate(@Param("id") Long id);
 
     boolean existsByBookId(Long bookId);
+    boolean existsByMemberId(Long memberId);
 }

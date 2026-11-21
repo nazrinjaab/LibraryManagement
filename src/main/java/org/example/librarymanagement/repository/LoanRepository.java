@@ -16,4 +16,6 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT l FROM Loan l WHERE l.id = :id")
     Optional<Loan> findByIdForUpdate(@Param("id") Long id);
+
+    boolean existsByBookId(Long bookId);
 }

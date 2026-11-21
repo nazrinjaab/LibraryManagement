@@ -32,10 +32,10 @@ public class LoanService {
     @Transactional
     public LoanResponse borrow(LoanRequest request) {
         Book book = bookRepository.findById(request.bookId())
-                .orElseThrow(() -> new NotFoundException("Book not found:" + request.bookId()));
+                .orElseThrow(() -> new NotFoundException("error.book.notFound", request.bookId()));
 
         Member member = memberRepository.findById((request.memberId()))
-                .orElseThrow(() -> new NotFoundException("Member not found:" + request.memberId()));
+                .orElseThrow(() -> new NotFoundException("error.member.notFound", request.memberId()));
 
         long activeLoans = loanRepository.countByMemberIdAndStatus(member.getId(), LoanStatus.ACTIVE);
         if (activeLoans >= MAX_ACTIVE_LOANS) {
@@ -44,7 +44,7 @@ public class LoanService {
 
         int updated = bookRepository.decreaseAvailableCopies(book.getId());
         if (updated == 0) {
-            throw new BusinessException("Book is out of stock: " + book.getTitle());
+            throw new BusinessException("error.book.outOfStock", book.getTitle());
         }
 
         Loan loan = new Loan();
@@ -61,9 +61,9 @@ public class LoanService {
     public LoanResponse returnBook(Long loanId) {
 
         Loan loan = loanRepository.findByIdForUpdate(loanId)
-                .orElseThrow(() -> new NotFoundException("Loan not found: " + loanId));
+                .orElseThrow(() -> new NotFoundException("error.loan.notFound", loanId));
         if (loan.getStatus() == LoanStatus.RETURNED) {
-            throw new BusinessException("Loan already returned: " + loanId);
+            throw new BusinessException("error.loan.alreadyReturned", loanId);
         }
 
         loan.setStatus(LoanStatus.RETURNED);
